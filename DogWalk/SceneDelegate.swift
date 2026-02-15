@@ -9,7 +9,28 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    var window: UIWindow?
+  
+
+   // class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+        var window: UIWindow?
+
+        func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+            guard let windowScene = (scene as? UIWindowScene) else { return }
+            
+            let window = UIWindow(windowScene: windowScene)
+            
+            // 1. Создаём онбординг контроллер
+            let onboardingVC = ViewController()
+            
+            // 2. Оборачиваем в навигационный контроллер
+            let navigationController = UINavigationController(rootViewController: onboardingVC)
+            navigationController.navigationBar.isHidden = true // Скрываем панель для онбординга
+            
+            window.rootViewController = navigationController
+            self.window = window
+            window.makeKeyAndVisible()
+        }
+    }
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -48,5 +69,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
-}
+
 
