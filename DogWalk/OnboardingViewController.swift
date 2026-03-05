@@ -89,9 +89,9 @@ final class OnboardingViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Join our community", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.font = AppFont.semibold18()
         button.layer.cornerRadius = 14
-        button.backgroundColor = .systemOrange
+        button.backgroundColor = AppColor.primary
         
         return button
     }()
@@ -281,7 +281,7 @@ final class OnboardingViewController: UIViewController {
     private func createStepLabel(text: String, textColor: UIColor) -> UILabel {
         let label = UILabel()
         label.text = text
-        label.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        label.font = AppFont.bold13()
         label.textAlignment = .center
         label.textColor = textColor
         label.translatesAutoresizingMaskIntoConstraints = false

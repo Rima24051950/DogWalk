@@ -25,7 +25,7 @@ class SignupViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "Arrow - Left 2"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = AppColor.color
         
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 28),
@@ -39,13 +39,13 @@ class SignupViewController: UIViewController {
         let label = UILabel()
         label.text = "Let’s start here"
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = AppColor.color
         label.numberOfLines = 0
         
         
         guard let font = UIFont(name: "Poppins-Bold", size: 34) else {
            
-            label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+            label.font = AppFont.bold34()
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }
@@ -94,10 +94,10 @@ class SignupViewController: UIViewController {
         label.text = "Fill in your details to begin"
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .left
-        label.textColor = UIColor(named: "iconColor")
+        label.textColor = AppColor.textSecondary
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.font = AppFont.semibold18()
         let letterSpacing: CGFloat = -0.0697
         
         let attributedString = NSMutableAttributedString(string: label.text!)
@@ -138,8 +138,8 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Full Name"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
-        textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        textField.textColor = AppColor.textColor
+        textField.backgroundColor = AppColor.backgroundInput
         textField.layer.cornerRadius = 14
         textField.leftViewMode = .always
         textField.autocapitalizationType = .words
@@ -157,7 +157,7 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Email Address"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
+        textField.textColor = AppColor.backgroundInput
         textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         textField.layer.cornerRadius = 14
         textField.leftViewMode = .always
@@ -177,8 +177,8 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Password"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
-        textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        textField.textColor = AppColor.textColor
+        textField.backgroundColor = AppColor.backgroundInput
         textField.layer.cornerRadius = 14
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftViewMode = .always
@@ -188,7 +188,7 @@ class SignupViewController: UIViewController {
         
         let toggleButton = UIButton(type: .system)
         toggleButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        toggleButton.tintColor = UIColor(named: "iconColor")
+        toggleButton.tintColor = AppColor.iconColor
         toggleButton.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         toggleButton.contentMode = .center
         
@@ -222,7 +222,7 @@ class SignupViewController: UIViewController {
         button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor.systemOrange
+        button.backgroundColor = AppColor.primary
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -234,7 +234,7 @@ class SignupViewController: UIViewController {
         let label = UILabel()
         label.text = "or"
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = UIColor(named: "textColor")
+        label.textColor = AppColor.textColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -246,8 +246,8 @@ class SignupViewController: UIViewController {
         // 1. Настройка кнопки
         button.setTitle("Connect with Facebook", for: .normal)
         button.setTitleColor(UIColor(named: "surfase"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(named: "secodary")
+        button.titleLabel?.font = AppFont.semibold18()
+        button.backgroundColor = AppColor.facebookround
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         
@@ -293,7 +293,7 @@ class SignupViewController: UIViewController {
     
     private let googleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        button.backgroundColor = AppColor.backgroundInput
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         
@@ -307,7 +307,7 @@ class SignupViewController: UIViewController {
         // 2. Текст кнопки
         button.setTitle("Connect with Google", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.font = AppFont.semibold18()
         
         //  констрейнты ДЛЯ САМОЙ КНОПКИ
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -357,7 +357,7 @@ class SignupViewController: UIViewController {
         // Обычный текст — серый цвет
         attributedString.addAttribute(
             .foregroundColor,
-            value: UIColor(named: "iconColor"),
+            value: AppColor.iconColor,
             range: NSRange(location: 0, length: fullText.count)
         )
         
@@ -365,7 +365,7 @@ class SignupViewController: UIViewController {
         [termsRange, privacyRange].forEach { range in
             attributedString.addAttribute(
                 .foregroundColor,
-                value: UIColor(named: "textColor"),
+                value: AppColor.textColor,
                 range: range
             )
             attributedString.addAttribute(
@@ -383,7 +383,7 @@ class SignupViewController: UIViewController {
         
         textView.attributedText = attributedString
         textView.linkTextAttributes = [
-            .foregroundColor: UIColor(named: "textColor"),
+            .foregroundColor: AppColor.textColor,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
         

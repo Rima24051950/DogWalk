@@ -6,12 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FAFA2A032F59A56000890E22 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA2A022F59A55C00890E22 /* AppColor.swift */; };
+		FAFA2A082F59BE9800890E22 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA2A052F59A69E00890E22 /* AppFont.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FA946A9E2F2CAFF400F7DDB2 /* DogWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA946AD72F2E1D8D00F7DDB2 /* Inter_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-Regular.ttf"; sourceTree = "<group>"; };
 		FA946AD82F2E1DAE00F7DDB2 /* Inter_18pt-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-Medium.ttf"; sourceTree = "<group>"; };
 		FA946AD92F2E1DBE00F7DDB2 /* Inter_18pt-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-SemiBold.ttf"; sourceTree = "<group>"; };
 		FA946ADA2F2E1DCC00F7DDB2 /* Inter_24pt-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_24pt-Bold.ttf"; sourceTree = "<group>"; };
+		FAFA2A022F59A55C00890E22 /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
+		FAFA2A052F59A69E00890E22 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -49,6 +56,8 @@
 		FA946A952F2CAFF400F7DDB2 = {
 			isa = PBXGroup;
 			children = (
+				FAFA2A022F59A55C00890E22 /* AppColor.swift */,
+				FAFA2A052F59A69E00890E22 /* AppFont.swift */,
 				FA946AD62F2E1D4500F7DDB2 /* Fonts */,
 				FA946AA02F2CAFF400F7DDB2 /* DogWalk */,
 				FA946A9F2F2CAFF400F7DDB2 /* Products */,
@@ -148,6 +157,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAFA2A032F59A56000890E22 /* AppColor.swift in Sources */,
+				FAFA2A082F59BE9800890E22 /* AppFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
