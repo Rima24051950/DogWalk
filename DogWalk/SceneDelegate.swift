@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             // 1. Создаём онбординг контроллер
-            let onboardingVC = ViewController()
+            let onboardingVC = OnboardingViewController()
             
             // 2. Оборачиваем в навигационный контроллер
             let navigationController = UINavigationController(rootViewController: onboardingVC)

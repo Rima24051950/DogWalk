@@ -10,13 +10,13 @@ import UIKit
 class SignupViewController: UIViewController {
     
     // MARK: - UI Elements
-    // MARK: Header Stack (стрелка + 2 лейбла
+    
     private let contentStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.spacing = 22 // ← GAP между элементами как в дизайне
+        stack.spacing = 22
         stack.alignment = .leading
-        stack.distribution = .fill // элементы заполняют доступное пространство
+        stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -25,7 +25,7 @@ class SignupViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "Arrow - Left 2"), for: .normal)
-        button.tintColor = .black
+        button.tintColor = AppColor.color
         
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 28),
@@ -39,18 +39,18 @@ class SignupViewController: UIViewController {
         let label = UILabel()
         label.text = "Let’s start here"
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = AppColor.color
         label.numberOfLines = 0
         
-        // 1. Загружаем шрифт Poppins Bold (вес 700)
+        
         guard let font = UIFont(name: "Poppins-Bold", size: 34) else {
-            // Запасной вариант: системный шрифт
-            label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+           
+            label.font = AppFont.bold34()
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }
         
-        // 2. Рассчитываем межбуквенный интервал: -0.41% от 34 = -0.1394
+        
         let letterSpacing: CGFloat = -0.1394
         
         // 3. Создаём атрибутированный текст
@@ -70,7 +70,7 @@ class SignupViewController: UIViewController {
             range: NSRange(location: 0, length: label.text!.count)
         )
         
-        // 4. Настройка межстрочного интервала (line-height: 100%)
+        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 0 // 100% = нет дополнительного интервала
         paragraphStyle.alignment = .center
@@ -83,11 +83,7 @@ class SignupViewController: UIViewController {
         // 5. Устанавливаем атрибутированный текст
         label.attributedText = attributedString
         label.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        NSLayoutConstraint.activate([
-//            label.widthAnchor.constraint(equalToConstant: 264),
-//            label.heightAnchor.constraint(equalToConstant: 51)
-//        ])
+     
         
         return label
     }()
@@ -98,10 +94,10 @@ class SignupViewController: UIViewController {
         label.text = "Fill in your details to begin"
         label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         label.textAlignment = .left
-        label.textColor = UIColor(named: "iconColor")
+        label.textColor = AppColor.textSecondary
         label.translatesAutoresizingMaskIntoConstraints = false
         
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.font = AppFont.semibold18()
         let letterSpacing: CGFloat = -0.0697
         
         let attributedString = NSMutableAttributedString(string: label.text!)
@@ -113,13 +109,7 @@ class SignupViewController: UIViewController {
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: label.text!.count))
         
         label.attributedText = attributedString
-        
-//        // Фиксируем размер лейбла
-//        NSLayoutConstraint.activate([
-//            label.widthAnchor.constraint(equalToConstant: 249),
-//            label.heightAnchor.constraint(equalToConstant: 26)
-//        ])
-        
+ 
         return label
     }()
     
@@ -137,7 +127,7 @@ class SignupViewController: UIViewController {
     private let fieldsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 22 // gap между полями
+        stackView.spacing = 22
         stackView.distribution = .fill
         stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,10 +138,9 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Full Name"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
-        textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        textField.textColor = AppColor.textColor
+        textField.backgroundColor = AppColor.backgroundInput
         textField.layer.cornerRadius = 14
-        // textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 343, height: 60))
         textField.leftViewMode = .always
         textField.autocapitalizationType = .words
         textField.autocorrectionType = .no
@@ -168,10 +157,9 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Email Address"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
+        textField.textColor = AppColor.backgroundInput
         textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         textField.layer.cornerRadius = 14
-        //textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftViewMode = .always
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
@@ -189,18 +177,18 @@ class SignupViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Password"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.textColor = .black
-        textField.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        textField.textColor = AppColor.textColor
+        textField.backgroundColor = AppColor.backgroundInput
         textField.layer.cornerRadius = 14
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         textField.leftViewMode = .always
-        textField.isSecureTextEntry = true // Скрытие символов пароля
+        textField.isSecureTextEntry = true
         textField.keyboardType = .default
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         let toggleButton = UIButton(type: .system)
         toggleButton.setImage(UIImage(systemName: "eye.slash"), for: .normal)
-        toggleButton.tintColor = UIColor(named: "iconColor")
+        toggleButton.tintColor = AppColor.iconColor
         toggleButton.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         toggleButton.contentMode = .center
         
@@ -221,7 +209,7 @@ class SignupViewController: UIViewController {
     private let buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10 // 🔑 gap: 10px между элементами
+        stackView.spacing = 10
         stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -234,7 +222,7 @@ class SignupViewController: UIViewController {
         button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor.systemOrange
+        button.backgroundColor = AppColor.primary
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         button.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -246,7 +234,7 @@ class SignupViewController: UIViewController {
         let label = UILabel()
         label.text = "or"
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.textColor = UIColor(named: "textColor")
+        label.textColor = AppColor.textColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -256,10 +244,10 @@ class SignupViewController: UIViewController {
         let button = UIButton(type: .system)
         
         // 1. Настройка кнопки
-        button.setTitle("Connect with Facebook", for: .normal) // ← Без лишнего пробела в начале!
+        button.setTitle("Connect with Facebook", for: .normal)
         button.setTitleColor(UIColor(named: "surfase"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(named: "secodary")
+        button.titleLabel?.font = AppFont.semibold18()
+        button.backgroundColor = AppColor.facebookround
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         
@@ -276,7 +264,7 @@ class SignupViewController: UIViewController {
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconContainer.addSubview(iconView)
         
-        // 4.  КОНСТРЕЙНТЫ (без привязки к titleLabel!)
+     
         button.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -305,7 +293,7 @@ class SignupViewController: UIViewController {
     
     private let googleButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        button.backgroundColor = AppColor.backgroundInput
         button.layer.cornerRadius = 14
         button.clipsToBounds = true
         
@@ -319,26 +307,24 @@ class SignupViewController: UIViewController {
         // 2. Текст кнопки
         button.setTitle("Connect with Google", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.font = AppFont.semibold18()
         
         //  констрейнты ДЛЯ САМОЙ КНОПКИ
         button.translatesAutoresizingMaskIntoConstraints = false
         
         // 4. КОНСТРЕЙНТЫ ВНУТРИ КНОПКИ
         NSLayoutConstraint.activate([
-            // Иконка: 24×24, отступы как в дизайне (top: 18px, left: 21px)
+           
             googleIcon.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 21),
-            googleIcon.topAnchor.constraint(equalTo: button.topAnchor, constant: 18), // ← Исправлено: 18 вместо 87!
+            googleIcon.topAnchor.constraint(equalTo: button.topAnchor, constant: 18), // ←
             googleIcon.widthAnchor.constraint(equalToConstant: 24),
             googleIcon.heightAnchor.constraint(equalToConstant: 24),
-            
-            // Центрируем иконку по вертикали внутри кнопки
             googleIcon.centerYAnchor.constraint(equalTo: button.centerYAnchor)
         ])
         
-        // 5. ОТСТУПЫ ДЛЯ ТЕКСТА (вместо прямого констрейнта на titleLabel)
+        
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 57, bottom: 0, right: 20)
-        // 57 = 21 (левый отступ) + 24 (ширина иконки) + 12 (промежуток)
+        
         
         // 6.  ФИКСИРОВАННЫЕ РАЗМЕРЫ КНОПКИ (343×60)
         NSLayoutConstraint.activate([
@@ -353,9 +339,9 @@ class SignupViewController: UIViewController {
     
     private let termsLabel: UITextView = {
         let textView = UITextView()
-        textView.isScrollEnabled = false // Отключаем скролл для компактности
-        textView.isEditable = false // Делаем только для чтения
-        textView.backgroundColor = .clear // Прозрачный фон
+        textView.isScrollEnabled = false
+        textView.isEditable = false
+        textView.backgroundColor = .clear
         textView.textAlignment = .center
         textView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -371,7 +357,7 @@ class SignupViewController: UIViewController {
         // Обычный текст — серый цвет
         attributedString.addAttribute(
             .foregroundColor,
-            value: UIColor(named: "iconColor"),
+            value: AppColor.iconColor,
             range: NSRange(location: 0, length: fullText.count)
         )
         
@@ -379,7 +365,7 @@ class SignupViewController: UIViewController {
         [termsRange, privacyRange].forEach { range in
             attributedString.addAttribute(
                 .foregroundColor,
-                value: UIColor(named: "textColor"),
+                value: AppColor.textColor,
                 range: range
             )
             attributedString.addAttribute(
@@ -397,7 +383,7 @@ class SignupViewController: UIViewController {
         
         textView.attributedText = attributedString
         textView.linkTextAttributes = [
-            .foregroundColor: UIColor(named: "textColor"),
+            .foregroundColor: AppColor.textColor,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
         
@@ -442,18 +428,16 @@ class SignupViewController: UIViewController {
             contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45),
             contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             contentStack.widthAnchor.constraint(equalToConstant: 264),
-            //contentStack.heightAnchor.constraint(equalToConstant: 77),
-                          //   textStack.heightAnchor.constraint(equalToConstant: 77),
             
             fieldsStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 194),
             fieldsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 14),
             fieldsStackView.widthAnchor.constraint(equalToConstant: 343),
             
-           // buttonsStackView.heightAnchor.constraint(equalToConstant: 222),
+  
             buttonsStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 438),
             buttonsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             buttonsStackView.widthAnchor.constraint(equalToConstant: 343),
-           // buttonsStackView.heightAnchor.constraint(equalToConstant: 232),
+          
             
             
             backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
