@@ -7,7 +7,8 @@
 import UIKit
 
 
-final class OnboardingViewController: UIViewController {
+final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
+    private var currentStep: Int = 1
     
     // MARK: - Types (Private nested types)
     
@@ -17,14 +18,14 @@ final class OnboardingViewController: UIViewController {
         
         var backgroundColor: UIColor {
             switch self {
-            case .first: return .white
-            case .other: return .black
+            case .first: return .surfase
+            case .other: return .colorblack
             }
         }
         
         var borderColor: CGColor? {
             switch self {
-            case .first: return UIColor.systemOrange.cgColor
+            case .first: return UIColor.primary.cgColor
             case .other: return nil
             }
         }
@@ -34,7 +35,7 @@ final class OnboardingViewController: UIViewController {
     
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "onbordingImage")
+        imageView.image = AppImage.onboardingBackground.image
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +44,7 @@ final class OnboardingViewController: UIViewController {
     
     private let pawsImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "paws")
+        imageView.image = AppImage.paws.image
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +53,7 @@ final class OnboardingViewController: UIViewController {
     
     private let wooDogImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "woo dog")
+        imageView.image = AppImage.wooDog.image
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,9 +61,9 @@ final class OnboardingViewController: UIViewController {
     }()
     
     // Steps (using factory methods)
-    private lazy var step1View = createStepView(style: .first)
-    private lazy var step2View = createStepView(style: .other)
-    private lazy var step3View = createStepView(style: .other)
+    private lazy var step1View = createStepView(style: .first,tag: 1)
+    private lazy var step2View = createStepView(style: .other,tag: 2)
+    private lazy var step3View = createStepView(style: .other,tag: 3)
     
     // Step labels (using factory methods)
     private lazy var step1Label = createStepLabel(text: "1", textColor: .black)
@@ -89,7 +90,7 @@ final class OnboardingViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Join our community", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = AppFont.semibold18()
+        button.titleLabel?.font = AppFont.interSemibold18()
         button.layer.cornerRadius = 14
         button.backgroundColor = AppColor.primary
         
@@ -126,6 +127,15 @@ final class OnboardingViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupActions()
+        setupGestures()
+    }
+    
+    
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
+        // Исключаем кнопки и индикаторы шагов, чтобы не дублировать действия
+        tapGesture.delegate = self
+        view.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Override Methods
@@ -151,6 +161,8 @@ final class OnboardingViewController: UIViewController {
     private func setupActions() {
         joinButton.addTarget(self, action: #selector(joinTapped), for: .touchUpInside)
         signInButton.addTarget(self, action: #selector(signInTapped), for: .touchUpInside)
+        
+        
     }
     
     private func setupBackground() {
@@ -179,7 +191,7 @@ final class OnboardingViewController: UIViewController {
     private func setupUI() {
         // Add labels to step views
         zip([step1View, step2View, step3View], [step1Label, step2Label, step3Label])
-            .forEach { $0.addSubview($1) }
+            .forEach { ($0 as AnyObject).addSubview($1) }
         
         // Steps stack: 1 — 2 — 3
         stepsStack = UIStackView(arrangedSubviews: [step1View, dash1Label, step2View, dash2Label, step3View])
@@ -265,23 +277,32 @@ final class OnboardingViewController: UIViewController {
     
     // MARK: - Factory Methods (Private)
     
-    private func createStepView(style: StepStyle) -> UIView {
+    private func createStepView(style: StepStyle, tag: Int) -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.backgroundColor = style.backgroundColor
+        view.tag = tag
+        
         if let borderColor = style.borderColor {
             view.layer.borderWidth = 1
             view.layer.borderColor = borderColor
         }
+        
+        // 🔥 Делаем кликабельным
+        view.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(stepTapped(_:)))
+        view.addGestureRecognizer(tap)
+        
         return view
+        
     }
     
     private func createStepLabel(text: String, textColor: UIColor) -> UILabel {
         let label = UILabel()
         label.text = text
-        label.font = AppFont.bold13()
+        label.font = AppFont.interSemibold18()
         label.textAlignment = .center
         label.textColor = textColor
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -372,5 +393,52 @@ final class OnboardingViewController: UIViewController {
     @objc private func signInTapped() {
         print("Sign In tapped")
     }
-}
+    // MARK: - Step Tap Handlers
+    
+    // MARK: - Step Tap
+    
+    @objc private func stepTapped(_ gesture: UITapGestureRecognizer) {
+        guard let step = gesture.view?.tag else { return }
+        guard step != currentStep else { return }
+        
+        currentStep = step
+        updateUIForStep(step)
+    }
+    
+    private func updateUIForStep(_ step: Int) {
+        // 🔥 Меняем картинку
+        let imageName = step == 1 ? "onbordingImage" : (step == 2 ? "onbordingimage1" : "onbordingimage2")
+        backgroundImageView.image = UIImage(named: imageName)
+        
+        // 🔥 Обновляем стили шагов
+        let steps = [(step1View, step1Label), (step2View, step2Label), (step3View, step3Label)]
+        
+        for (index, (view, label)) in steps.enumerated() {
+            let num = index + 1
+            if num == currentStep {
+                view.backgroundColor = .surfase
+                view.layer.borderColor = UIColor.primary.cgColor
+                view.layer.borderWidth = 1
+                label.textColor = .black
+            } else {
+                view.backgroundColor = .colorblack
+                view.layer.borderColor = nil
+                view.layer.borderWidth = 0
+                label.textColor = .white
+            }
+        }
+    }
+    @objc private func screenTapped() {
+        goToNextStep()
+    }
 
+    private func goToNextStep() {
+        guard currentStep < 3 else {
+            // Последний шаг — можно показать финальное действие
+            
+            return
+        }
+        currentStep += 1
+        updateUIForStep(currentStep)
+    }
+}

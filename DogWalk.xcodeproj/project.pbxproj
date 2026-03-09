@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA7BE63C2F5EDDE70066DD8A /* AppImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7BE63B2F5EDD140066DD8A /* AppImage.swift */; };
 		FAFA2A032F59A56000890E22 /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA2A022F59A55C00890E22 /* AppColor.swift */; };
 		FAFA2A082F59BE9800890E22 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFA2A052F59A69E00890E22 /* AppFont.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA7BE63B2F5EDD140066DD8A /* AppImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImage.swift; sourceTree = "<group>"; };
 		FA946A9E2F2CAFF400F7DDB2 /* DogWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA946AD72F2E1D8D00F7DDB2 /* Inter_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-Regular.ttf"; sourceTree = "<group>"; };
 		FA946AD82F2E1DAE00F7DDB2 /* Inter_18pt-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter_18pt-Medium.ttf"; sourceTree = "<group>"; };
@@ -53,12 +55,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA7142BE2F5DB808008BC7A4 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				FA946ADA2F2E1DCC00F7DDB2 /* Inter_24pt-Bold.ttf */,
+				FA946AD92F2E1DBE00F7DDB2 /* Inter_18pt-SemiBold.ttf */,
+				FA946AD82F2E1DAE00F7DDB2 /* Inter_18pt-Medium.ttf */,
+				FA946AD72F2E1D8D00F7DDB2 /* Inter_18pt-Regular.ttf */,
+				FAFA2A022F59A55C00890E22 /* AppColor.swift */,
+				FA7BE63B2F5EDD140066DD8A /* AppImage.swift */,
+				FAFA2A052F59A69E00890E22 /* AppFont.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		FA946A952F2CAFF400F7DDB2 = {
 			isa = PBXGroup;
 			children = (
-				FAFA2A022F59A55C00890E22 /* AppColor.swift */,
-				FAFA2A052F59A69E00890E22 /* AppFont.swift */,
-				FA946AD62F2E1D4500F7DDB2 /* Fonts */,
+				FA7142BE2F5DB808008BC7A4 /* Resource */,
 				FA946AA02F2CAFF400F7DDB2 /* DogWalk */,
 				FA946A9F2F2CAFF400F7DDB2 /* Products */,
 			);
@@ -70,17 +84,6 @@
 				FA946A9E2F2CAFF400F7DDB2 /* DogWalk.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FA946AD62F2E1D4500F7DDB2 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				FA946ADA2F2E1DCC00F7DDB2 /* Inter_24pt-Bold.ttf */,
-				FA946AD92F2E1DBE00F7DDB2 /* Inter_18pt-SemiBold.ttf */,
-				FA946AD82F2E1DAE00F7DDB2 /* Inter_18pt-Medium.ttf */,
-				FA946AD72F2E1D8D00F7DDB2 /* Inter_18pt-Regular.ttf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA7BE63C2F5EDDE70066DD8A /* AppImage.swift in Sources */,
 				FAFA2A032F59A56000890E22 /* AppColor.swift in Sources */,
 				FAFA2A082F59BE9800890E22 /* AppFont.swift in Sources */,
 			);
