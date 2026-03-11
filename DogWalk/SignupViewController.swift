@@ -488,7 +488,7 @@ final class SignupViewController: UIViewController {
     
     @objc private func signUpTapped() {
         print("✅ Sign Up tapped")
-    }
+  }
     
     @objc private func facebookTapped() {
         print("✅ Facebook tapped")

@@ -160,7 +160,7 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     
     private func setupActions() {
         joinButton.addTarget(self, action: #selector(joinTapped), for: .touchUpInside)
-        signInButton.addTarget(self, action: #selector(signInTapped), for: .touchUpInside)
+        signInButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         
         
     }
@@ -313,7 +313,7 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         let label = UILabel()
         label.text = "—"
         label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        label.textColor = .white
+        label.textColor = AppColor.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
@@ -324,7 +324,7 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         guard let font = UIFont(name: "Poppins-Bold", size: 22) else {
             return NSAttributedString(string: text, attributes: [
                 .font: UIFont.systemFont(ofSize: 22, weight: .bold),
-                .foregroundColor: UIColor.white
+                .foregroundColor: AppColor.surfase
             ])
         }
         
@@ -390,10 +390,14 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
-    @objc private func signInTapped() {
-        print("Sign In tapped")
+    @objc private func signUpTapped() {
+        print("✅ Sign Up tapped")
+        
+        let nextVC = SignInViewController()
+
+        navigationController?.pushViewController(nextVC, animated: true)
     }
-    // MARK: - Step Tap Handlers
+   
     
     // MARK: - Step Tap
     
