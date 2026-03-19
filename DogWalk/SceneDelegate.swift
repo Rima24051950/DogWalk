@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
         }
     private func createTabBarController() -> UITabBarController {
-        let homeVC = HomeViewController()
+        let homeVC = MainTabBarController()
         homeVC.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house.fill"), tag: 0)
         
         let profileVC = ProfileViewController()

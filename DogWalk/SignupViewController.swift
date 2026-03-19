@@ -373,6 +373,26 @@ final class SignupViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    
+    
+  // MARK: - Кнопка перехода
+    
+    private let skipButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Skip", for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = AppFont.interSemibold18()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+        
+    }()
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -381,6 +401,7 @@ final class SignupViewController: UIViewController {
         setupUI()
         setupConstraints()
         setupActions()
+        
     }
     
     // MARK: - Setup Methods
@@ -424,6 +445,8 @@ final class SignupViewController: UIViewController {
         buttonsStackView.addArrangedSubview(facebookButton)
         buttonsStackView.addArrangedSubview(googleButton)
         contentView.addSubview(buttonsStackView)
+        
+        view.addSubview(skipButton)
     }
     
     private func setupConstraints() {
@@ -471,13 +494,26 @@ final class SignupViewController: UIViewController {
             termsLabel.heightAnchor.constraint(equalToConstant: 55),
             termsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)  // ✅ Отступ снизу для скролла
         ])
+        
+        
+        NSLayoutConstraint.activate([
+            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 26),
+            skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            skipButton.widthAnchor.constraint(equalToConstant: 60),
+            skipButton.heightAnchor.constraint(equalToConstant: 44)
+            
+        ])
     }
+        
+        
+    
     
     private func setupActions() {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         facebookButton.addTarget(self, action: #selector(facebookTapped), for: .touchUpInside)
         googleButton.addTarget(self, action: #selector(googleTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector (skipTapped), for: .touchUpInside)
     }
     
     // MARK: - Actions
@@ -496,6 +532,20 @@ final class SignupViewController: UIViewController {
     
     @objc private func googleTapped() {
         print("✅ Google tapped")
+    }
+    
+    
+    @objc private func skipTapped () {
+        print ("Skip tapped")
+        let tabBarVC = MainTabBarController()
+           tabBarVC.modalPresentationStyle = .fullScreen
+           tabBarVC.modalTransitionStyle = .coverVertical  // или .crossDissolve
+           
+           present(tabBarVC, animated: true)
+        
+        
+        
+        
     }
     
     @objc private func togglePasswordVisibility() {
