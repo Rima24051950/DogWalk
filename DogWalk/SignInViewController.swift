@@ -20,6 +20,7 @@ final class SignInViewController: UIViewController {
             // ✅ Настройка заголовка
             title = "Экран без регистрации"
             view.backgroundColor = AppColor.secondary
+          
         }
     
     private func showGuestModeHint() {

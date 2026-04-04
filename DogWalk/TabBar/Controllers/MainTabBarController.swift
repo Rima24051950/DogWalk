@@ -7,6 +7,7 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +23,8 @@ class MainTabBarController: UITabBarController {
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         tabBar.isTranslucent = false
+    
         
-        tabBar.layer.shadowColor = UIColor.black.cgColor
-        tabBar.layer.shadowOpacity = 0.1
-        tabBar.layer.shadowOffset = CGSize(width: 0, height: -2)
-        tabBar.layer.shadowRadius = 4
     }
     
     private func setupViewControllers() {

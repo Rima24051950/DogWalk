@@ -375,7 +375,7 @@ final class SignupViewController: UIViewController {
     
     
     
-  // MARK: - Кнопка перехода
+    // MARK: - Кнопка перехода
     
     private let skipButton: UIButton = {
         let button = UIButton(type: .system)
@@ -401,6 +401,7 @@ final class SignupViewController: UIViewController {
         setupUI()
         setupConstraints()
         setupActions()
+        navigationItem.hidesBackButton = true
         
     }
     
@@ -497,15 +498,13 @@ final class SignupViewController: UIViewController {
         
         
         NSLayoutConstraint.activate([
-            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 26),
+            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             skipButton.widthAnchor.constraint(equalToConstant: 60),
             skipButton.heightAnchor.constraint(equalToConstant: 44)
             
         ])
     }
-        
-        
     
     
     private func setupActions() {
@@ -524,7 +523,7 @@ final class SignupViewController: UIViewController {
     
     @objc private func signUpTapped() {
         print("✅ Sign Up tapped")
-  }
+    }
     
     @objc private func facebookTapped() {
         print("✅ Facebook tapped")
@@ -538,10 +537,10 @@ final class SignupViewController: UIViewController {
     @objc private func skipTapped () {
         print ("Skip tapped")
         let tabBarVC = MainTabBarController()
-           tabBarVC.modalPresentationStyle = .fullScreen
-           tabBarVC.modalTransitionStyle = .coverVertical  // или .crossDissolve
-           
-           present(tabBarVC, animated: true)
+        tabBarVC.modalPresentationStyle = .fullScreen
+        tabBarVC.modalTransitionStyle = .coverVertical  // или .crossDissolve
+        
+        present(tabBarVC, animated: true)
         
         
         

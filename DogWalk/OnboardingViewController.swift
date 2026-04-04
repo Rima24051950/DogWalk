@@ -8,7 +8,22 @@ import UIKit
 
 
 final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
+    
     private var currentStep: Int = 1
+    
+
+    // MARK: - Swipe Gestures
+    private lazy var swipeLeft: UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped(_:)))
+        gesture.direction = .left
+        return gesture
+    }()
+
+    private lazy var swipeRight: UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped(_:)))
+        gesture.direction = .right
+        return gesture
+    }()
     
     // MARK: - Types (Private nested types)
     
@@ -128,12 +143,18 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         setupView()
         setupActions()
         setupGestures()
+        
+        navigationItem.hidesBackButton = true
     }
     
     
     private func setupGestures() {
+        // 🔥 Свайпы (просто добавьте эти 2 строки)
+        view.addGestureRecognizer(swipeLeft)
+        view.addGestureRecognizer(swipeRight)
+        
+        // Ваш существующий тап (оставьте как есть)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
-        // Исключаем кнопки и индикаторы шагов, чтобы не дублировать действия
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
     }
@@ -161,9 +182,20 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     private func setupActions() {
         joinButton.addTarget(self, action: #selector(joinTapped), for: .touchUpInside)
         signInButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
-        
-        
+    
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     private func setupBackground() {
         view.insertSubview(backgroundImageView, at: 0)
@@ -445,4 +477,20 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         currentStep += 1
         updateUIForStep(currentStep)
     }
+    
+    // 🔥 Обработчик свайпа
+    @objc private func swiped(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.direction == .left {
+            // 👈 Свайп влево → следующий шаг
+            guard currentStep < 3 else { return }
+            currentStep += 1
+            updateUIForStep(currentStep)
+        } else if gesture.direction == .right {
+            // 👉 Свайп вправо → предыдущий шаг
+            guard currentStep > 1 else { return }
+            currentStep -= 1
+            updateUIForStep(currentStep)
+        }
+    }
+    
 }
