@@ -201,8 +201,6 @@ final class WalkerCardView: UIView {
             
             nameLabel.topAnchor.constraint(equalTo: cardImageView.bottomAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo:leadingAnchor),
-           // nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-           // nameLabel.widthAnchor.constraint(equalToConstant: 28),
             nameLabel.heightAnchor.constraint(equalToConstant: 15),
             
             

@@ -35,13 +35,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let homeVC = MainTabBarController()
         homeVC.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house.fill"), tag: 0)
         
+        let momentsVC = MomentsViewController()
+               
+                momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.fill"), tag: 1)
+        let ChatVC = ChatViewController()
+        
+               
+                momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.fill"), tag: 2)
+        
+        
         let profileVC = ProfileViewController()
-        profileVC.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person.fill"), tag: 1)
+        profileVC.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person.fill"), tag: 3)
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: homeVC),
-            UINavigationController(rootViewController: profileVC)
+            UINavigationController(rootViewController: profileVC),
+            UINavigationController(rootViewController: momentsVC),
+            UINavigationController(rootViewController: ChatVC)
         ]
         return tabBarController
     }
