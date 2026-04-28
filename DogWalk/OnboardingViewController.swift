@@ -9,21 +9,39 @@ import UIKit
 
 final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    @IBAction func buttonTaped(_ sender: Any) {
+        print("Кнопка нажата ✅")
+        
+        
+        
+    }
     private var currentStep: Int = 1
+    private var gradientlayer = CAGradientLayer()
+    private var isDragging = false
+    private var dragStartPoint: CGPoint = .zero
+    private let dragThreshold: CGFloat = 100
     
-
     // MARK: - Swipe Gestures
     private lazy var swipeLeft: UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped(_:)))
         gesture.direction = .left
         return gesture
     }()
-
+    
     private lazy var swipeRight: UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped(_:)))
         gesture.direction = .right
         return gesture
     }()
+    
+    private lazy var panGesture: UIPanGestureRecognizer = {
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        gesture.delegate = self
+        return gesture
+    }()
+    
+    
+    
     
     // MARK: - Types (Private nested types)
     
@@ -46,6 +64,11 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         }
     }
     
+    
+    enum SwipeDirection {
+        case left, right
+    }
+    
     // MARK: - UI Elements
     
     private let backgroundImageView: UIImageView = {
@@ -55,6 +78,14 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    private let gradientOverlayView: UIView = {
+        let view = UIView()
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+        
     }()
     
     private let pawsImageView: UIImageView = {
@@ -142,18 +173,46 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         super.viewDidLoad()
         setupView()
         setupActions()
+        
+        
+        view.layoutIfNeeded()
         setupGestures()
+        setupGradient()
         
         navigationItem.hidesBackButton = true
+        
+    }
+    
+    private func setupGradient() {
+        let gradient = CAGradientLayer()
+        gradient.frame = gradientOverlayView.bounds
+        gradient.colors = [
+            UIColor(red: 32/255, green: 32/255, blue: 32/255, alpha: 1.0).cgColor,
+            UIColor(red: 32/255, green: 32/255, blue: 32/255, alpha: 0.95).cgColor,
+            UIColor(red: 32/255, green: 32/255, blue: 32/255, alpha: 0.90).cgColor,
+            UIColor(red: 60/255, green: 60/255, blue: 60/255, alpha: 0.85).cgColor,
+            UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.0).cgColor
+            
+            
+        ]
+        gradient.locations = [0.0, 0.1326, 0.2019, 0.3036, 1.0].map { NSNumber(value: $0) }
+        
+        gradient.startPoint = CGPoint(x: 0.5, y: 1.0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 0.0)
+        
+        gradientOverlayView.layer.insertSublayer(gradient, at: 0)
+        
+        self.gradientlayer = gradient
     }
     
     
+    
     private func setupGestures() {
-        // 🔥 Свайпы (просто добавьте эти 2 строки)
+        
         view.addGestureRecognizer(swipeLeft)
         view.addGestureRecognizer(swipeRight)
         
-        // Ваш существующий тап (оставьте как есть)
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
@@ -167,6 +226,8 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         
         coordinator.animate(alongsideTransition: { _ in
             self.updateLayoutForOrientation(isLandscape: isLandscape)
+            //  Обновляем фрейм градиента при повороте
+            self.gradientlayer.frame = self.gradientOverlayView.bounds
         }, completion: nil)
     }
     
@@ -182,31 +243,29 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     private func setupActions() {
         joinButton.addTarget(self, action: #selector(joinTapped), for: .touchUpInside)
         signInButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
-    
+        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
     private func setupBackground() {
         view.insertSubview(backgroundImageView, at: 0)
+        view.insertSubview(gradientOverlayView,aboveSubview: backgroundImageView)
+        
         view.addSubview(pawsImageView)
         view.addSubview(wooDogImageView)
+        
         
         NSLayoutConstraint.activate([
             backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            gradientOverlayView.topAnchor.constraint(equalTo: view.topAnchor),
+            gradientOverlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gradientOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            gradientOverlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             pawsImageView.widthAnchor.constraint(equalToConstant: 40),
             pawsImageView.heightAnchor.constraint(equalToConstant: 40),
@@ -322,7 +381,7 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
             view.layer.borderColor = borderColor
         }
         
-        // 🔥 Делаем кликабельным
+        //  Делаем кликабельным
         view.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(stepTapped(_:)))
         view.addGestureRecognizer(tap)
@@ -422,14 +481,20 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
+    
     @objc private func signUpTapped() {
-        print("✅ Sign Up tapped")
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let nextVC = SignInViewController()
-
-        navigationController?.pushViewController(nextVC, animated: true)
+        guard let signInVC = storyboard.instantiateViewController(withIdentifier: "SignInVC") as? SignInViewController else {
+            return
+        }
+        
+        let navController = UINavigationController(rootViewController: signInVC)
+        navController.modalPresentationStyle = .fullScreen
+        
+        present(navController, animated: true)
     }
-   
+    
     
     // MARK: - Step Tap
     
@@ -442,11 +507,11 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     }
     
     private func updateUIForStep(_ step: Int) {
-        // 🔥 Меняем картинку
+        
         let imageName = step == 1 ? "onbordingImage" : (step == 2 ? "onbordingimage1" : "onbordingimage2")
         backgroundImageView.image = UIImage(named: imageName)
         
-        // 🔥 Обновляем стили шагов
+        //  Обновляем стили шагов
         let steps = [(step1View, step1Label), (step2View, step2Label), (step3View, step3Label)]
         
         for (index, (view, label)) in steps.enumerated() {
@@ -467,7 +532,9 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     @objc private func screenTapped() {
         goToNextStep()
     }
-
+    
+    
+    
     private func goToNextStep() {
         guard currentStep < 3 else {
             // Последний шаг — можно показать финальное действие
@@ -478,19 +545,108 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         updateUIForStep(currentStep)
     }
     
-    // 🔥 Обработчик свайпа
+    //  Обработчик свайпа
     @objc private func swiped(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .left {
-            // 👈 Свайп влево → следующий шаг
+            
             guard currentStep < 3 else { return }
             currentStep += 1
             updateUIForStep(currentStep)
         } else if gesture.direction == .right {
-            // 👉 Свайп вправо → предыдущий шаг
+            
             guard currentStep > 1 else { return }
             currentStep -= 1
             updateUIForStep(currentStep)
         }
+    }
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+        
+        switch gesture.state {
+        case .began:
+            isDragging = true
+            dragStartPoint = backgroundImageView.center
+            view.bringSubviewToFront(backgroundImageView)
+            
+        case .changed:
+            backgroundImageView.center = CGPoint(
+                x: dragStartPoint.x + translation.x,
+                y: dragStartPoint.y + translation.y
+            )
+            
+            let progress = min(abs(translation.x) / dragThreshold, 1.0)
+            backgroundImageView.alpha = 1 - progress * 0.3
+            
+            let rotation = translation.x * 0.005
+            backgroundImageView.transform = CGAffineTransform(rotationAngle: rotation)
+            
+        case .ended, .cancelled:
+            isDragging = false
+            
+            if abs(translation.x) > dragThreshold {
+                let direction: SwipeDirection = translation.x > 0 ? .right : .left
+                swipeToNextStep(direction: direction, velocity: gesture.velocity(in: view).x)
+            } else {
+                returnBackgroundToCenter()
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    private func swipeToNextStep(direction: SwipeDirection, velocity: CGFloat) {
+        let offScreenX: CGFloat = direction == .right ? view.bounds.width + 100 : -view.bounds.width - 100
+        
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.backgroundImageView.center.x = offScreenX
+            self.backgroundImageView.transform = CGAffineTransform(rotationAngle: direction == .right ? 0.4 : -0.4)
+            self.backgroundImageView.alpha = 0
+        }) { _ in
+            if direction == .left, self.currentStep < 3 {
+                self.currentStep += 1
+            } else if direction == .right, self.currentStep > 1 {
+                self.currentStep -= 1
+            }
+            self.updateUIForStep(self.currentStep)
+            
+            self.backgroundImageView.alpha = 0
+            self.backgroundImageView.center.x = offScreenX
+            self.backgroundImageView.transform = CGAffineTransform(rotationAngle: direction == .right ? 0.4 : -0.4)
+            
+            UIView.animate(withDuration: 0.25) {
+                self.backgroundImageView.alpha = 1
+                self.backgroundImageView.center = self.view.center
+                self.backgroundImageView.transform = .identity
+            }
+        }
+    }
+    
+    private func returnBackgroundToCenter() {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5) {
+            self.backgroundImageView.center = self.view.center
+            self.backgroundImageView.transform = .identity
+            self.backgroundImageView.alpha = 1
+        }
+    }
+    
+    
+    
+    // MARK: - UIGestureRecognizerDelegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer is UISwipeGestureRecognizer {
+            return otherGestureRecognizer is UIPanGestureRecognizer
+        }
+        return false
     }
     
 }

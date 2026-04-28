@@ -6,7 +6,7 @@
 //
 import UIKit
 
-import UIKit
+
 
 class ChatViewController: UIViewController {
     
@@ -156,11 +156,6 @@ class ChatViewController: UIViewController {
         setupConstraints()
         
         navigationItem.hidesBackButton = true
-        
-        
-        
-        
-        
         
     }
     

@@ -24,7 +24,7 @@ class MomentsViewController: UIViewController {
     }
     
     private func embedSwiftUIMomentsView() {
-        // 🔥 1. Создаём SwiftUI View с closure
+       
         let momentsView = MomentsView { [weak self] in  // ✅ ВОТ ЭТОГО НЕ ХВАТАЛО!
             self?.navigateToChat()
         }
@@ -53,12 +53,12 @@ class MomentsViewController: UIViewController {
         hostingController.didMove(toParent: self)
     }
     
-    // 🔥 Функция перехода на Chat
+    //  перехода на Chat
     private func navigateToChat() {
-        print("🚀 Navigating to Chat...")  // 🔥 Лог для отладки
+        print(" Navigating to Chat...")
         
         let chatVC = ChatViewController()
-        chatVC.hidesBottomBarWhenPushed = true  // ✅ Скрыть таббар
+        chatVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(chatVC, animated: true)
     }
     

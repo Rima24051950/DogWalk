@@ -1,8 +1,8 @@
 //
-//  Model.swift
+//  ChatItem.swift
 //  DogWalk
 //
-//  Created by MacBook on 09.04.2026.
+//  Created by MacBook on 23.04.2026.
 //
 
 import UIKit

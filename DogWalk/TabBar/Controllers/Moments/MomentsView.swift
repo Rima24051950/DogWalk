@@ -10,6 +10,7 @@ import UIKit
 struct MomentsView: View {
     
     @State private var selectedTab = 0
+    @State private var isTextExpanded = false
     var onCheckScheduleTapped: () -> Void = {}
     
     
@@ -215,40 +216,60 @@ struct MomentsView: View {
                     .frame(width: 339,height: 44)
                     .offset(x: 16, y: 24)
                     
-                    Text ("Alex has loved dogs since childhood. He is currently a veterinary student. Visits the dog shelter we...")
-                        .font(.system(size: 13))
-                        .foregroundColor(.gray)
-                        .frame(width: 279,height: 80)
-                        .padding(.top,619)
-                        .padding(.leading,45)
-                    
-                    Text("Read more")
-                        .font(.system(size: 13))
-                    
-                    
-                        .frame(width: 155, height: 80)
-                        .padding(.top, 645)
-                        .foregroundColor(.red)
-                    
-                    
-                    // MARK: КНОПКА
-                    
-                    Button ( action:{
-                        onCheckScheduleTapped() 
-                    }) {
-                        Text ("Check schedule")
-                            .foregroundColor(.white)
-                            .padding(.vertical,15)
-                            .padding(.horizontal,102)
+                    // ... ваш код до Age/Experience ...
+
+                    // ✅ Описание с "Read more" - ВСТАВЬТЕ ЭТО:
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Alex has loved dogs since childhood. He is currently a veterinary student. Visits the dog shelter weekly and believes every dog deserves love and care. Alex is patient, responsible, and always follows the walking schedule.")
+                            .font(.system(size: 13))
+                            .foregroundColor(.black)
+                            .background(Color.white.opacity(0.95))
+                            .cornerRadius(8)
+                            .lineLimit(isTextExpanded ? nil : 3)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(12)
+                        
+                        Button(
+                            action: {
+                                withAnimation(.easeOut(duration: 0.2)) {
+                                    isTextExpanded.toggle()
+                                }
+                            },
+                            label: {
+                                HStack(spacing: 2) {
+                                    Text(isTextExpanded ? "Read more" : "")
+                                        .font(.system(size: 13, weight: .semibold))
+                                    Image(systemName: isTextExpanded ? "chevron.up" : "chevron.down")
+                                        .font(.system(size: 10))
+                                }
+                                .foregroundColor(.orange)
+                            }
+                        )
+                        .padding(.top, 2)
                     }
-                    .frame(width: 343,height: 56)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 619)
+                    .padding(.leading,19)
+
+                    // ✅ Кнопка "Check schedule" - с адаптивным отступом:
+                    Button(action: {
+                        onCheckScheduleTapped()
+                    }) {
+                        Text("Check schedule")
+                            .foregroundColor(.white)
+                            .font(.system(size: 18, weight: .semibold))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 15)
+                    }
                     .background(Color.orange.opacity(0.9))
                     .cornerRadius(14)
-                    .padding(.top,700)
-                    .padding(.leading,59)
+                    .padding(.horizontal, 20)
+                    .padding(.top, isTextExpanded ? 780 : 730)
+
                     
-                    
-                    
+//                    
+                
                 }
                 
                 }

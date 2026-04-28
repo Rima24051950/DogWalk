@@ -34,7 +34,7 @@ class MainTabBarController: UITabBarController {
         let momentsVC = MomentsViewController()
         momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.on.rectangle.fill"), tag: 2)
         
-        let chatVC = ChatViewController()
+        let chatVC = ChatListViewController()
        // navigationController?.pushViewController(chatVC, animated: true)
         chatVC.tabBarItem = UITabBarItem(title: "Chat", image: UIImage(systemName: "message.fill"), tag: 3)
         

@@ -7,30 +7,57 @@
 
 import UIKit
 
-final class SignInViewController: UIViewController {
+final class SignInViewController: UIViewController,UISearchTextFieldDelegate {
     
-
-        override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    
+    @IBOutlet weak var letsStartsLabel: UILabel!
+    @IBOutlet weak var fillYourDetailLabel: UILabel!
+    
+    
+    @IBOutlet weak var privacyLabel: UILabel!
+    
+    
+    
+    override func viewDidLoad() {
+            super.viewDidLoad()
             
-            navigationController?.setNavigationBarHidden(false, animated: animated)
             
-            showGuestModeHint()
+        view.backgroundColor = AppColor.onSurfase
+        nameField.layer.cornerRadius = 14
+        nameField.clipsToBounds = true
+        emailField.layer.cornerRadius = 14
+        emailField.clipsToBounds = true
+        passwordField.layer.cornerRadius = 14
+        passwordField.clipsToBounds = true
+       
+        nameField.delegate = self
+        emailField.delegate = self
+        passwordField.delegate = self
+           
+         
             
-            // ✅ Настройка заголовка
-            title = "Экран без регистрации"
-            view.backgroundColor = AppColor.secondary
-          
+            // 3. Кнопка "Назад"
+            navigationItem.leftBarButtonItem = UIBarButtonItem(
+                title: "←",
+                style: .plain,
+                target: self,
+                action: #selector(dismissSelf)
+            )
         }
-    
-    private func showGuestModeHint() {
-        let alert = UIAlertController(
-            title: "👋 Привет!",
-            message: "Вы можете исследовать приложение без регистрации. Для сохранения данных войдите в аккаунт позже.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "Понял", style: .default))
-        present(alert, animated: true)
-    }
         
+        @objc private func dismissSelf() {
+            dismiss(animated: true)
+           
+        }
+    }
+
+    // MARK: - UITextFieldDelegate
+    extension SignInViewController: UITextFieldDelegate {
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder() // Скрыть клавиатуру
+            return true
+        }
     }

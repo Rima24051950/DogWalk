@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
         return label
     }()
     
-    private let subtitleLabel: UILabel = {
+    private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Explore dog walkers"
         label.font = AppFont.interRegular18()
@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
         
         button.translatesAutoresizingMaskIntoConstraints = false
         
+        button.addTarget(self, action: #selector(bookWalkTapped), for: .touchUpInside)
         return button
     }()
     
@@ -465,7 +466,13 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func iconTapped() {
-        print("➕ Icon tapped!")
+        
+    }
+    
+    @objc private func bookWalkTapped() {
+        let badHabitsVC = BadHabitsListViewController()
+        badHabitsVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(badHabitsVC, animated: true)
     }
 }
 
