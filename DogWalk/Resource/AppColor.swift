@@ -21,8 +21,10 @@ enum AppColor {
     static let facebookround = UIColor(named: "secodary") ?? .white
     static let cardPlus = UIColor(named: "cardPlus") ?? .white
     static let surfase = UIColor(named: "surfase") ?? .white
-    static let backgroundInput = UIColor(named: "background-input") 
+    static let backgroundInput = UIColor(named: "backgroundInput") 
     static let onSurfase = UIColor(named: "onSurfase") ?? .black
+    static let backgraundBadHab = UIColor(named: "backgraundBadHab")
+    
     
     // MARK: -  Text (текст)
     static let textColor = UIColor(named: "textColor") ?? .black
