@@ -31,6 +31,7 @@ enum AppColor {
     static let textDark = UIColor(named: "textDark") ?? .black
     static let textSecondary = UIColor(named: "iconColor") ?? .systemGray
     static let otherText = UIColor(named: "otherText") ?? .systemGray
+    static let textcolors = UIColor(named: "textColors") 
     
     // MARK: -  UI (иконки и элементы)
     static let iconColor = UIColor(named: "iconColor") ?? .black

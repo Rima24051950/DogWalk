@@ -75,8 +75,8 @@ final class HabitCell: UICollectionViewCell {
             // Icon - выравнивание по макету (отступ сверху)
             iconImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 43),
             iconImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 48),
-            iconImageView.heightAnchor.constraint(equalToConstant: 48),
+            iconImageView.widthAnchor.constraint(equalToConstant: 65),
+            iconImageView.heightAnchor.constraint(equalToConstant: 76),
             
             // Title - под иконкой
             titleLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 12),
@@ -90,7 +90,7 @@ final class HabitCell: UICollectionViewCell {
     
     func configure(with item: HabitItem) {
         iconImageView.image = UIImage(named: item.imageName)
-        titleLabel.text = item.title
+       // titleLabel.text = item.title
         isSelectedState = item.isSelected
     }
     
@@ -98,13 +98,13 @@ final class HabitCell: UICollectionViewCell {
     
     private func updateSelection() {
         if isSelectedState {
-            containerView.layer.borderWidth = 2
-            containerView.layer.borderColor = AppColor.onSurfase.cgColor  //
-            containerView.backgroundColor = AppColor.backgraundBadHab?.withAlphaComponent(0.1)
-        } else {
             containerView.layer.borderWidth = 0
-            containerView.layer.borderColor = nil
-            containerView.backgroundColor = UIColor.systemGray6
+            containerView.layer.borderColor = nil //
+            containerView.backgroundColor = UIColor(named: "newColor")
+        } else {
+            containerView.layer.borderWidth = 2
+            containerView.layer.borderColor = AppColor.primary.cgColor
+            containerView.backgroundColor = AppColor.backgraundBadHab?.withAlphaComponent(0.1)
         }
     }
     

@@ -28,7 +28,7 @@ extension UILabel {
     static func makeTitle(_ text: String) -> UILabel {
         makeLabel(
             text: text,
-            font: AppFont.interBold24(),
+            font: UIFont(name: "Poppins-Bold", size: 34)!,
             textColor: .label
         )
     }

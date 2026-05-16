@@ -31,7 +31,7 @@ class MainTabBarController: UITabBarController {
         let homeVC = HomeViewController()
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 1)
         
-        let momentsVC = MomentsViewController()
+        let momentsVC = MomentsTabViewController()
         momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.on.rectangle.fill"), tag: 2)
         
         let chatVC = ChatListViewController()

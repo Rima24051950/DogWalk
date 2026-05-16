@@ -48,6 +48,11 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		FA0F2ECA2FA4961D00161110 /* Moments */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Moments;
+			sourceTree = "<group>";
+		};
 		FA946AA02F2CAFF400F7DDB2 /* DogWalk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -95,6 +100,7 @@
 				FA0F2E6B2F9FA92300161110 /* SignupViewController.swift */,
 				FA0F2E6A2F9FA92300161110 /* SignInViewController.swift */,
 				FA0F2E682F9FA92300161110 /* OnboardingViewController.swift */,
+				FA0F2ECA2FA4961D00161110 /* Moments */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -138,6 +144,7 @@
 			fileSystemSynchronizedGroups = (
 				FA0F2E992FA3807300161110 /* BadHabits */,
 				FA0F2EB62FA380AF00161110 /* TabBar */,
+				FA0F2ECA2FA4961D00161110 /* Moments */,
 				FA946AA02F2CAFF400F7DDB2 /* DogWalk */,
 			);
 			name = DogWalk;

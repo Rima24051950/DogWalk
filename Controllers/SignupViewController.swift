@@ -37,7 +37,7 @@ final class SignupViewController: UIViewController {
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "Arrow - Left 2"), for: .normal)
+        button.setImage(UIImage(named: "Arrow - Left"), for: .normal)
         button.tintColor = AppColor.color
         return button
     }()
@@ -230,7 +230,6 @@ final class SignupViewController: UIViewController {
     private let contentStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [])
         stack.axis = .vertical
-        stack.spacing = 22
         stack.distribution = .fill
         stack.alignment = .leading
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -332,27 +331,21 @@ final class SignupViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
             
        
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             backButton.widthAnchor.constraint(equalToConstant: 28),
             backButton.heightAnchor.constraint(equalToConstant: 28),
             
-            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            skipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             skipButton.widthAnchor.constraint(equalToConstant: 60),
             skipButton.heightAnchor.constraint(equalToConstant: 44),
         
             
-            contentStack.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 24),
+            contentStack.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 22),
             contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
-            contentStack.widthAnchor.constraint(equalToConstant: 264),
-            
-//            titleLabel.heightAnchor.constraint(equalToConstant: 51),
-//            subtitleLabel.heightAnchor.constraint(equalToConstant: 26),
-           
-            titleLabel.widthAnchor.constraint(equalToConstant: 264),
-            subtitleLabel.widthAnchor.constraint(equalToConstant: 249),
-           
+            contentStack.trailingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
+            contentStack.widthAnchor.constraint(equalTo: view.widthAnchor),
         
             
             fieldsStackView.topAnchor.constraint(equalTo: contentStack.bottomAnchor, constant: 22),

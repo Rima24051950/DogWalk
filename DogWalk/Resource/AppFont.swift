@@ -32,8 +32,7 @@ enum AppFont {
         case .semibold: fontName = "Inter-SemiBold"
         case .bold:     fontName = "Inter-Bold"
         }
-        
-        // Попытка загрузить Inter, иначе fallback на системный
+       
         return UIFont(name: fontName, size: size.rawValue)
             ?? UIFont.systemFont(ofSize: size.rawValue, weight: weight.uiWeight)
     }

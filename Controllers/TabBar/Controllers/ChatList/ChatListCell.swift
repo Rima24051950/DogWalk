@@ -19,15 +19,15 @@ final class ChatListCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         UILabel.makeLabel(
-            font: UIFont.boldSystemFont(ofSize: 20),
+            font: UIFont(name: "Poppins-Bold", size: 20)!,
             textColor: .label
         )
     }()
     
     private let messageLabel: UILabel = {
         UILabel.makeLabel(
-            font: UIFont.systemFont(ofSize: 17),
-            textColor: AppColor.textDark,
+            font: UIFont(name: "Poppins-Medium", size: 17)!,
+            textColor: AppColor.textcolors!,
             numberOfLines: 2
         )
     }()

@@ -23,11 +23,20 @@ final class ChatListViewController: UIViewController {
         UITextField.makeSearchField()
     }()
     
+    private let titleContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .clear
         table.separatorStyle = .none
         table.rowHeight = 88
+        table.contentInsetAdjustmentBehavior = .never
+        table.contentInset = .zero
+        
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -39,7 +48,11 @@ final class ChatListViewController: UIViewController {
         setupData()
         setupView()
         setupTableView()
+        view.addSubview(titleContainer)
+        titleContainer.addSubview(titleLabel)
         setupConstraints()
+        
+        
     }
     
     // MARK: - Setup
@@ -63,17 +76,29 @@ final class ChatListViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Title
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
-            // Search
-            searchField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            // ===== TITLE CONTAINER =====
+            titleContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -48),
+            titleContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            titleContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+           // titleContainer.heightAnchor.constraint(equalToConstant: 74),
+            
+            // ===== TitleLabel внутри container (с padding) =====
+            titleLabel.topAnchor.constraint(equalTo: titleContainer.topAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: titleContainer.leadingAnchor, constant: 18),
+            titleLabel.trailingAnchor.constraint(equalTo: titleContainer.trailingAnchor, constant: -18),
+            titleLabel.bottomAnchor.constraint(equalTo: titleContainer.bottomAnchor, constant: -8),
+            
+            // ===== SEARCH FIELD ✅ ИСПРАВЛЕНО =====
+            // ❌ БЫЛО: searchField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16)
+            // ✅ СТАЛО: привязка к контейнеру!
+            searchField.topAnchor.constraint(equalTo: titleContainer.bottomAnchor, constant: 0), // Или 16, если нужен отступ
             searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            searchField.heightAnchor.constraint(equalToConstant: 44),
             
-            // Table
-            tableView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 16),
+            // ===== TABLE VIEW =====
+            tableView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -110,6 +135,6 @@ extension ChatListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 88
+        return 98
     }
 }

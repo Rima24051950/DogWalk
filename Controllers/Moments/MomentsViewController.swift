@@ -16,7 +16,7 @@ class MomentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Moments"
+       // title = "Moments"
         navigationController?.navigationBar.prefersLargeTitles = false
         
         embedSwiftUIMomentsView()
@@ -25,7 +25,7 @@ class MomentsViewController: UIViewController {
     
     private func embedSwiftUIMomentsView() {
        
-        let momentsView = MomentsView { [weak self] in  // ✅ ВОТ ЭТОГО НЕ ХВАТАЛО!
+        let momentsView = MomentsView { [weak self] in
             self?.navigateToChat()
         }
         

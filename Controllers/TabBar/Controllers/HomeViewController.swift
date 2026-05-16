@@ -10,6 +10,41 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    
+   enum HomeState {
+    
+       case emptyLocation
+      case hasLocation(String)
+
+}
+    
+    private var currentState: HomeState = .emptyLocation {
+        didSet { updateUI() }
+    }
+
+    private func updateUI() {
+        
+        switch currentState {
+        case.emptyLocation:
+            promoBanner.isHidden = false
+            topwalkers.text = "Top walkers"
+            
+        case.hasLocation(let location):
+        
+              
+                promoBanner.isHidden = false
+                topwalkers.text = "Near you"
+                searchBar.text = location
+            }
+            
+        
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    
     // MARK: - UI Elements
     
     private let scrollView: UIScrollView = {
@@ -132,7 +167,8 @@ class HomeViewController: UIViewController {
     private let topwalkers: UILabel = {
         let label = UILabel()
         label.text = "Top walkers"
-        label.font = AppFont.interBold24()
+        label.font = UIFont(name: "Poppins-Bold", size: 32)
+        label.numberOfLines = 0
         label.textColor = AppColor.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -142,10 +178,21 @@ class HomeViewController: UIViewController {
     private let viewall: UILabel = {
         let label = UILabel()
         label.text = "View all"
-        label.font = AppFont.interSemibold18()
-        label.textColor = AppColor.disabled
+        label.font = UIFont(name: "Poppins-Medium", size: 15)
+        label.textColor = AppColor.textcolors
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+                
+                .foregroundColor: AppColor.textcolors,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+            
+            // 5️⃣ Применяем
+            label.attributedText = NSAttributedString(string: "View all", attributes: attributes)
+        
+        
         return label
         
     }()
@@ -163,7 +210,8 @@ class HomeViewController: UIViewController {
     private let suggestedView: UILabel = {
         let label = UILabel()
         label.text = "Suggested"
-        label.font = AppFont.interBold24()
+        label.numberOfLines = 0
+        label.font = UIFont(name: "Poppins-Bold", size: 32)
         label.textColor = AppColor.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -173,10 +221,23 @@ class HomeViewController: UIViewController {
     private let viewAllView: UILabel = {
         let label = UILabel()
         label.text = "View all"
-        label.font = AppFont.interSemibold18()
-        label.textColor = AppColor.disabled
+        label.font = UIFont(name: "Poppins-Medium", size: 15)
+        label.numberOfLines = 0
+        label.textColor = AppColor.textcolors
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+                
+                .foregroundColor: AppColor.textcolors,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ]
+            
+            // 5️⃣ Применяем
+            label.attributedText = NSAttributedString(string: "View all", attributes: attributes)
+        
+        
+        
         return label
     
     }()
@@ -261,7 +322,7 @@ class HomeViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-       
+        
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(scrollView)
@@ -269,9 +330,11 @@ class HomeViewController: UIViewController {
         
         contentView.addSubview (containerView)
         containerView.addSubview(contentStack)
-        containerView.addSubview(iconButton)  
+        containerView.addSubview(iconButton)
         contentView.addSubview(searchBar)
         setupSearchIcon()
+        
+        updateUI()
         
         // MARK: БАННЕР
         
@@ -279,7 +342,7 @@ class HomeViewController: UIViewController {
         promoBanner.addSubview(bannerImageView)
         promoBanner.addSubview(overlayImageView)
         
-       //  MARK: Top walkers - контейнер
+        //  MARK: Top walkers - контейнер
         contentView.addSubview(infoContainer)
         infoContainer.addSubview(topwalkers)
         infoContainer.addSubview(viewall)
@@ -296,19 +359,32 @@ class HomeViewController: UIViewController {
         
         
         
-//        MARK: Карточки walkers
+        //        MARK: Карточки walkers
         contentView.addSubview(walkersStackView)
         walkersStackView.addArrangedSubview(walkerCard1)
         walkersStackView.addArrangedSubview(walkerCard2)
-       
         
-
+        
+        
         setupConstraints()
         setupActions()
-    
-       
+        
+        
         searchBar.delegate = self
+        
+        
+        walkerCard1.isUserInteractionEnabled = true
+        walkerCard1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(walkerCardTapped)))
     }
+        @objc private func walkerCardTapped() {
+            let badHabitsVC = BadHabitsListViewController()
+            badHabitsVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(badHabitsVC, animated: true)
+        
+    
+    }
+    
+    
     
     private func setupSearchIcon() {
         //  Контейнер для иконки с точными размерами
@@ -328,7 +404,7 @@ class HomeViewController: UIViewController {
         searchBar.searchTextField.leftViewMode = .always
     }
 
-    // MARK: - Constraints ✅ ВСЕ КОНСТРЕЙНТЫ ЗДЕСЬ
+    // MARK: - Constraints
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -365,17 +441,18 @@ class HomeViewController: UIViewController {
             iconButton.heightAnchor.constraint(equalToConstant: 41),
             
             //  searchBar (под контейнером)
-            searchBar.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 16),
+            searchBar.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 8),
             searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             searchBar.heightAnchor.constraint(equalToConstant: 42),
         
             // promoBanner (констрейнты)
             
-            //promoBanner.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 203),
+            
             promoBanner.topAnchor.constraint(equalTo: searchBar.bottomAnchor,constant: 16),
             promoBanner.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            promoBanner.widthAnchor.constraint(equalToConstant: 343),
+            promoBanner.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+           // promoBanner.widthAnchor.constraint(equalToConstant: 343),
             promoBanner.heightAnchor.constraint(equalToConstant: 132),
             
             // bannerImageView (констрейнты)
@@ -395,14 +472,14 @@ class HomeViewController: UIViewController {
             
             // MARK: Top walkers (контейнер)
             
-           // infoContainer.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,constant: 357),
+           
             infoContainer.topAnchor.constraint(equalTo: promoBanner.bottomAnchor,constant: 16),
             infoContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             infoContainer.widthAnchor.constraint(equalToConstant: 342),
             infoContainer.heightAnchor.constraint(equalToConstant: 51),
             infoContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -500),
             // MARK: левый лейбл
-            
+            topwalkers.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: 12),
             topwalkers.leadingAnchor.constraint(equalTo: infoContainer.leadingAnchor),
             topwalkers.centerYAnchor.constraint(equalTo: infoContainer.centerYAnchor),
             
@@ -413,21 +490,21 @@ class HomeViewController: UIViewController {
             
             
             // MARK: Top Suggested (контейнер)
-            suggestedContainer.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor,constant: 600),
+            suggestedContainer.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 550),
             suggestedContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
             suggestedContainer.widthAnchor.constraint(equalToConstant: 342),
             suggestedContainer.heightAnchor.constraint(equalToConstant: 51),
          //   suggestedContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -16),
             
             
-            // ✅ Левый лейбл
+            //  Левый лейбл
             
             suggestedView.leadingAnchor.constraint(equalTo: suggestedContainer.leadingAnchor),
             suggestedView.centerYAnchor.constraint(equalTo: suggestedContainer.centerYAnchor),
             suggestedView.widthAnchor.constraint(equalToConstant: 187),
             suggestedView.heightAnchor.constraint(equalToConstant: 51),
             
-            // ✅Правый лейбл
+            // Правый лейбл
             
             viewAllView.leadingAnchor.constraint(equalTo: suggestedView.leadingAnchor,constant: 97),
             viewAllView.trailingAnchor.constraint(equalTo: suggestedContainer.trailingAnchor),
@@ -470,7 +547,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func bookWalkTapped() {
-        let badHabitsVC = BadHabitsListViewController()
+        let badHabitsVC = MomentsViewController()
         badHabitsVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(badHabitsVC, animated: true)
     }
@@ -481,12 +558,29 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("🔍 Search: \(searchBar.text ?? "")")
+        if let text = searchBar.text, !text.isEmpty {
+            currentState = .hasLocation(text)
+        } else {
+            currentState = .emptyLocation
+        }
+        
+        
         searchBar.resignFirstResponder()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        currentState = .emptyLocation
+        
         searchBar.resignFirstResponder()
     }
-}
+    
+    // В delegate UITextField:
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let isEmpty = searchText.isEmpty
+        promoBanner.isHidden = !isEmpty  // Скрываем когда ввели текст
+        topwalkers.text = isEmpty ? "Top walkers" : "Near you"
+    }
+    }
+
+

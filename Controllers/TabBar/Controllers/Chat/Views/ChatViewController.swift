@@ -6,10 +6,9 @@
 //
 import UIKit
 
-
-
 class ChatViewController: UIViewController {
     
+    // MARK: - Properties
     
     private var inputBottomConstraint: NSLayoutConstraint?
     
@@ -17,8 +16,8 @@ class ChatViewController: UIViewController {
     
     var chatItems: [ChatItem] = [
         .dateHeader("1 April 12:00"),
-        .message(Message(text: "Hey, Alex! Nice to meet you! I’d like to hire a walker and you’re perfect one for me. Can you help me out?", isFromMe: true, date: Date())),
-        .message(Message(text: "Hi! That’s great! Let me give you a call and we’ll discuss all the details", isFromMe: false, date: Date())),
+        .message(Message(text: "Hey, Alex! Nice to meet you! I'd like to hire a walker and you're perfect one for me. Can you help me out?", isFromMe: true, date: Date())),
+        .message(Message(text: "Hi! That's great! Let me give you a call and we'll discuss all the details", isFromMe: false, date: Date())),
         .dateHeader("12:30"),
         .message(Message(text: "Okay, I'm waiting for a call)", isFromMe: true, date: Date()))
     ]
@@ -27,7 +26,7 @@ class ChatViewController: UIViewController {
     
     private let messagesTableView: UITableView = {
         let table = UITableView()
-        table.backgroundColor = .white
+        table.backgroundColor = .systemBackground
         table.separatorStyle = .none
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 100
@@ -40,7 +39,7 @@ class ChatViewController: UIViewController {
     
     private let inputContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.layer.borderWidth = 0.5
         view.layer.borderColor = AppColor.disabled.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +50,7 @@ class ChatViewController: UIViewController {
         let field = UITextField()
         field.placeholder = "Aa"
         field.font = AppFont.interRegular18()
+        field.textColor = .label
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
@@ -58,7 +58,7 @@ class ChatViewController: UIViewController {
     private let plusButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = AppColor.disabled
+        button.tintColor = AppColor.primary
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -69,6 +69,14 @@ class ChatViewController: UIViewController {
         button.tintColor = AppColor.textDark
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    // MARK: - UI Elements - Header Container ✅ НОВОЕ
+    
+    private let headerContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     // MARK: - UI Elements - Header (отдельные элементы)
@@ -95,8 +103,9 @@ class ChatViewController: UIViewController {
         let label = UILabel()
         label.text = "Alex Murray"
         label.textColor = AppColor.textColor
-        label.font = AppFont.interSemibold18()
+        label.font = UIFont(name: "Poppins-Bold", size: 17)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
         return label
     }()
     
@@ -111,7 +120,7 @@ class ChatViewController: UIViewController {
     
     private let onlineDot: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .systemGreen
         view.layer.cornerRadius = 3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -127,39 +136,41 @@ class ChatViewController: UIViewController {
         return imageView
     }()
     
-    
-    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
-        // ✅ Хедер: добавляем элементы по отдельности (как у вас работало)
-        view.addSubview(backButton)
-        view.addSubview(onlineImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(onlineLabel)
-        view.addSubview(onlineDot)
-        view.addSubview(callImageView)
+       
+        view.addSubview(headerContainerView)
         
-        // ✅ TableView и Input
+       
+        headerContainerView.addSubview(backButton)
+        headerContainerView.addSubview(onlineImageView)
+        headerContainerView.addSubview(nameLabel)
+        headerContainerView.addSubview(onlineLabel)
+        headerContainerView.addSubview(onlineDot)
+        headerContainerView.addSubview(callImageView)
+        
+       
         view.addSubview(messagesTableView)
         view.addSubview(inputContainerView)
         inputContainerView.addSubview(textField)
         inputContainerView.addSubview(plusButton)
         inputContainerView.addSubview(micButton)
         
-        // ✅ Setup
         setupTableView()
         setupActions()
         setupConstraints()
+        setupKeyboardNotifications()
         
         navigationItem.hidesBackButton = true
-        
     }
     
     // MARK: - Setup
+    
+    
     
     private func setupTableView() {
         messagesTableView.delegate = self
@@ -170,6 +181,21 @@ class ChatViewController: UIViewController {
     
     private func setupActions() {
         backButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
+    }
+    
+    private func setupKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     // MARK: - Actions
@@ -184,60 +210,92 @@ class ChatViewController: UIViewController {
         }
     }
     
-    // MARK: - Constraints
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        let keyboardHeight = keyboardFrame.height - view.safeAreaInsets.bottom
+        
+        UIView.animate(withDuration: 0.3) {
+            self.inputBottomConstraint?.isActive = false
+            self.inputBottomConstraint = self.inputContainerView.bottomAnchor.constraint(
+                equalTo: self.view.bottomAnchor,
+                constant: -keyboardHeight
+            )
+            self.inputBottomConstraint?.isActive = true
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        UIView.animate(withDuration: 0.3) {
+            self.inputBottomConstraint?.isActive = false
+            self.inputBottomConstraint = self.inputContainerView.bottomAnchor.constraint(
+                equalTo: self.view.safeAreaLayoutGuide.bottomAnchor
+            )
+            self.inputBottomConstraint?.isActive = true
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Constraints ✅ ИСПРАВЛЕНО
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             
+           
+            headerContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: -54),
+            headerContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerContainerView.heightAnchor.constraint(equalToConstant: 60),
+         
             
             // Back button
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            backButton.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 8),
+            backButton.leadingAnchor.constraint(equalTo: headerContainerView.leadingAnchor, constant: 16),
             backButton.widthAnchor.constraint(equalToConstant: 24),
             backButton.heightAnchor.constraint(equalToConstant: 24),
             
             // Call button
-            callImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            callImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            callImageView.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 8),
+            callImageView.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor, constant: -16),
             callImageView.widthAnchor.constraint(equalToConstant: 24),
             callImageView.heightAnchor.constraint(equalToConstant: 24),
             
             // Avatar
-            onlineImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6),
+            onlineImageView.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 6),
             onlineImageView.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 12),
             onlineImageView.widthAnchor.constraint(equalToConstant: 48),
             onlineImageView.heightAnchor.constraint(equalToConstant: 48),
             
             // Name
-            nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            nameLabel.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: onlineImageView.trailingAnchor, constant: 8),
-            nameLabel.heightAnchor.constraint(equalToConstant: 26),
+            nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: callImageView.leadingAnchor, constant: -8),
             
-            // Online label (самый нижний элемент хедера!)
+            // Online label
             onlineLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
             onlineLabel.leadingAnchor.constraint(equalTo: onlineImageView.trailingAnchor, constant: 8),
-            onlineLabel.heightAnchor.constraint(equalToConstant: 20),
             
             // Online dot
             onlineDot.centerYAnchor.constraint(equalTo: onlineLabel.centerYAnchor),
-            onlineDot.leadingAnchor.constraint(equalTo: onlineImageView.trailingAnchor, constant: 8),
+            onlineDot.leadingAnchor.constraint(equalTo: onlineLabel.trailingAnchor, constant: 4),
             onlineDot.widthAnchor.constraint(equalToConstant: 6),
             onlineDot.heightAnchor.constraint(equalToConstant: 6),
             
-            // ===== TABLEVIEW (привязан к самому нижнему элементу хедера) =====
-            messagesTableView.topAnchor.constraint(equalTo: onlineLabel.bottomAnchor, constant: 16), // ✅ Ключевое!
+            //  TABLEVIEW
+            messagesTableView.topAnchor.constraint(equalTo: headerContainerView.bottomAnchor, constant: 0),
             messagesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             messagesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             messagesTableView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor),
             
-            // ===== INPUT CONTAINER =====
+            
             inputContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             inputContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             inputContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            inputContainerView.heightAnchor.constraint(equalToConstant: 50),
-            
-            
-            
+            inputContainerView.heightAnchor.constraint(equalToConstant: 56),
             
             // Plus Button
             plusButton.leadingAnchor.constraint(equalTo: inputContainerView.leadingAnchor, constant: 12),
@@ -257,12 +315,13 @@ class ChatViewController: UIViewController {
             micButton.widthAnchor.constraint(equalToConstant: 30),
             micButton.heightAnchor.constraint(equalToConstant: 30)
         ])
+        
+        // Инициализация ограничения для клавиатуры
         inputBottomConstraint = inputContainerView.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor
-            )
-            inputBottomConstraint?.isActive = true
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor
+        )
+        inputBottomConstraint?.isActive = true
     }
-    
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate

@@ -75,7 +75,7 @@ final class BadHabitsListViewController: UIViewController {
     
     private let sectionTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bad habits"
+       // label.text = "Bad habits"
         label.font = AppFont.interBold24()
         label.textColor = AppColor.textColor
         label.translatesAutoresizingMaskIntoConstraints = false
