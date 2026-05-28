@@ -29,7 +29,7 @@ final class StoryAvatarCell: UICollectionViewCell  {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Poppins-Regular", size: 10)
+        label.font = UIFont(name: "Poppins-Medium", size: 10)
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

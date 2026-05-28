@@ -11,6 +11,7 @@
 		FA0F2E812F9FA92300161110 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F2E682F9FA92300161110 /* OnboardingViewController.swift */; };
 		FA0F2E832F9FA92300161110 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F2E6A2F9FA92300161110 /* SignInViewController.swift */; };
 		FA0F2E842F9FA92300161110 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0F2E6B2F9FA92300161110 /* SignupViewController.swift */; };
+		FA60B3E52FC746E90084C44D /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60B3E42FC746E90084C44D /* PaymentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		FA0F2E682F9FA92300161110 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		FA0F2E6A2F9FA92300161110 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		FA0F2E6B2F9FA92300161110 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		FA60B3E42FC746E90084C44D /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		FA946A9E2F2CAFF400F7DDB2 /* DogWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DogWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -101,6 +103,7 @@
 				FA0F2E6A2F9FA92300161110 /* SignInViewController.swift */,
 				FA0F2E682F9FA92300161110 /* OnboardingViewController.swift */,
 				FA0F2ECA2FA4961D00161110 /* Moments */,
+				FA60B3E42FC746E90084C44D /* PaymentViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -108,11 +111,11 @@
 		FA946A952F2CAFF400F7DDB2 = {
 			isa = PBXGroup;
 			children = (
-				FA0F2E952FA3805100161110 /* Controllers */,
 				FA946AA02F2CAFF400F7DDB2 /* DogWalk */,
 				FA946A9F2F2CAFF400F7DDB2 /* Products */,
 				F1CB1CAE06EFB5705178A833 /* Pods */,
 				2CC300DDAD6BF84B14FBCD3D /* Frameworks */,
+				FA0F2E952FA3805100161110 /* Controllers */,
 			);
 			sourceTree = "<group>";
 		};
@@ -173,6 +176,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = FA946A952F2CAFF400F7DDB2;
 			minimizedProjectReferenceProxies = 1;
@@ -248,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA0F2E812F9FA92300161110 /* OnboardingViewController.swift in Sources */,
+				FA60B3E52FC746E90084C44D /* PaymentViewController.swift in Sources */,
 				FA0F2E832F9FA92300161110 /* SignInViewController.swift in Sources */,
 				FA0F2E842F9FA92300161110 /* SignupViewController.swift in Sources */,
 			);
@@ -317,6 +322,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -380,6 +386,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

@@ -31,14 +31,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.makeKeyAndVisible()
             
         }
-    private func createTabBarController() -> UITabBarController {
+     func createTabBarController() -> UITabBarController {
         let homeVC = MainTabBarController()
         homeVC.tabBarItem = UITabBarItem(title: "Главная", image: UIImage(systemName: "house.fill"), tag: 0)
         
-        let momentsVC = MomentsViewController()
+        let momentsVC = MomentsTabViewController()
                
                 momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.fill"), tag: 1)
-        let ChatVC = ChatViewController()
+        let chatVC = ChatViewController()
         
                
                 momentsVC.tabBarItem = UITabBarItem(title: "Moments", image: UIImage(systemName: "photo.fill"), tag: 2)
@@ -50,9 +50,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [
             UINavigationController(rootViewController: homeVC),
-            UINavigationController(rootViewController: profileVC),
             UINavigationController(rootViewController: momentsVC),
-            UINavigationController(rootViewController: ChatVC)
+            UINavigationController(rootViewController: chatVC),
+            UINavigationController(rootViewController: profileVC)
         ]
         return tabBarController
     }

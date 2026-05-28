@@ -1,0 +1,42 @@
+
+/* Class = "UIButton"; configuration.title = "Sign up"; ObjectID = "Abb-3h-ey5"; */
+"Abb-3h-ey5.configuration.title" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Abb-3h-ey5"; */
+"Abb-3h-ey5.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Button"; ObjectID = "Jh1-qR-PKg"; */
+"Jh1-qR-PKg.configuration.title" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Jh1-qR-PKg"; */
+"Jh1-qR-PKg.normalTitle" = "Button";
+
+/* Class = "UITextField"; placeholder = "E-mail"; ObjectID = "KTh-VB-Gwe"; */
+"KTh-VB-Gwe.placeholder" = "E-mail";
+
+/* Class = "UITextField"; placeholder = "Fullname"; ObjectID = "LgH-1g-vCB"; */
+"LgH-1g-vCB.placeholder" = "Fullname";
+
+/* Class = "UIButton"; configuration.title = "Connect with Google"; ObjectID = "Odc-vl-or1"; */
+"Odc-vl-or1.configuration.title" = "Connect with Google";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Odc-vl-or1"; */
+"Odc-vl-or1.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Fill in your details to begin"; ObjectID = "Yes-67-IRX"; */
+"Yes-67-IRX.text" = "Fill in your details to begin";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "Yrl-pB-njP"; */
+"Yrl-pB-njP.placeholder" = "Password";
+
+/* Class = "UIButton"; configuration.title = "Connect with Facebook"; ObjectID = "d3r-5g-PsB"; */
+"d3r-5g-PsB.configuration.title" = "Connect with Facebook";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "d3r-5g-PsB"; */
+"d3r-5g-PsB.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Let’s start here"; ObjectID = "lln-7W-Avz"; */
+"lln-7W-Avz.text" = "Let’s start here";
+
+/* Class = "UILabel"; text = "or"; ObjectID = "sgq-p4-Mfe"; */
+"sgq-p4-Mfe.text" = "or";

@@ -75,6 +75,7 @@ class ChatViewController: UIViewController {
     
     private let headerContainerView: UIView = {
         let view = UIView()
+      
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -86,6 +87,7 @@ class ChatViewController: UIViewController {
         button.setImage(UIImage(named: "Arrow - Left"), for: .normal)
         button.tintColor = AppColor.textColor
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isUserInteractionEnabled = true
         return button
     }()
     
@@ -166,6 +168,7 @@ class ChatViewController: UIViewController {
         setupKeyboardNotifications()
         
         navigationItem.hidesBackButton = true
+        headerContainerView.clipsToBounds = false
     }
     
     // MARK: - Setup
@@ -246,11 +249,11 @@ class ChatViewController: UIViewController {
         NSLayoutConstraint.activate([
             
            
-            headerContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: -54),
+            headerContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: -20),
             headerContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerContainerView.heightAnchor.constraint(equalToConstant: 60),
-         
+          
             
             // Back button
             backButton.topAnchor.constraint(equalTo: headerContainerView.topAnchor, constant: 8),

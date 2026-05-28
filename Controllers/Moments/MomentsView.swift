@@ -16,7 +16,7 @@ struct MomentsView: View {
         ScrollView {
             VStack(spacing: 0) {
                 
-                // ✅ 1. КАРТИНКА СВИЗУ (с Verified бейджем)
+              
                 ZStack(alignment: .topTrailing) {
                     Image("Alex Murray")
                         .resizable()
@@ -24,7 +24,7 @@ struct MomentsView: View {
                         .frame(height: 400)
                         .clipped()
                     
-                    // ✅ Verified бейдж
+               
                     HStack(spacing: 4) {
                         Text("Verified")
                             .font(.system(size: 16, weight: .semibold))
