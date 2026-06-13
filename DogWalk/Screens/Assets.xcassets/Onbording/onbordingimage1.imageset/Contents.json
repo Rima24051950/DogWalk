@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "filename" : "рпааа.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "idiom" : "iphone"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}
